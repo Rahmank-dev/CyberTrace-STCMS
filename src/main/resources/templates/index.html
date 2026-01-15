@@ -1,0 +1,510 @@
+<html th:replace="~{base::layout(~{::main})}">
+<body>
+<main class="p-0 m-0">
+  <style>
+    :root {
+      --cyber-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --cyber-glow: rgba(102,126,234,0.3);
+    }
+    .cyber-hero {
+      background: linear-gradient(135deg, rgba(12,12,12,0.95), rgba(26,26,46,0.9)),
+                  linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
+    }
+    .cyber-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(102,126,234,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+      opacity: 0.3;
+      pointer-events: none;
+    }
+    .cyber-card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+    .cyber-card:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px var(--cyber-glow);
+    }
+    .cyber-title {
+      background: var(--cyber-primary);
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+    .cyber-stat {
+      background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2));
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(102,126,234,0.3);
+    }
+    .cyber-btn-primary {
+      background: var(--cyber-primary);
+      border: none;
+      border-radius: 50px;
+      padding: 15px 40px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(102,126,234,0.3);
+    }
+    .cyber-btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(102,126,234,0.4);
+      color: white !important;
+    }
+
+    .cyber-testimonial {
+      background: rgba(255,255,255,0.02);
+      backdrop-filter: blur(10px);
+      border-left: 4px solid #667eea;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .cyber-testimonial:hover {
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(102,126,234,0.2);
+      border-left-color: #764ba2;
+    }
+    .cyber-card.testimonial-card:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(102,126,234,0.3);
+    }
+    .cyber-partner {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+    }
+    .cyber-news-card {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(102,126,234,0.2);
+    }
+
+    /* HERO notification marquee */
+    .ct-hero-marquee-wrapper{
+  border-radius:16px;
+  border:1px solid rgba(148,163,184,0.4);
+  background:rgba(15,23,42,0.95);
+  overflow:hidden;
+  padding:0;
+}
+
+.ct-hero-marquee{
+  position:relative;
+  overflow:hidden;
+  height:232px;  /* 5 lines approx */
+}
+
+/* list bottom se start karegi */
+.ct-hero-marquee-content{
+  list-style:none;
+  padding:0;
+  margin:0;
+  transform:translateY(100%);
+  animation:ct-marquee-vert 16s linear infinite; /* speed adjust kar sakta hai */
+}
+
+.ct-hero-marquee-content li{
+  padding:6px 8px;
+  margin-bottom:14px;
+  border-radius:999px;
+  background:rgba(37,99,235,0.25);
+  color:#e5e7eb;
+  font-size:0.85rem;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  box-shadow:0 0 0 1px rgba(59,130,246,0.45);
+}
+
+.ct-hero-tag{
+  font-size:0.7rem;
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  padding:2px 8px;
+  border-radius:999px;
+  background:rgba(15,23,42,0.9);
+  color:#93c5fd;
+}
+
+.ct-hero-text{
+  font-weight:500;
+  color:#f9fafb;
+}
+
+.ct-hero-marquee-content:hover{
+  animation-play-state:paused;
+}
+
+@keyframes ct-marquee-vert{
+  0%{
+    transform:translateY(232px);   /* bilkul bottom se enter */
+  }
+  100%{
+    transform:translateY(-100%);  /* top ke upar nikal jaye */
+  }
+}
+
+  </style>
+
+  <!-- HERO SECTION -->
+  <section class="cyber-hero text-light py-5 position-relative">
+    <div class="container-fluid py-5">
+      <div class="row align-items-center">
+        <!-- Left content -->
+        <div class="col-lg-7 ps-lg-5 ps-3">
+          <h1 class="display-2 fw-bold mb-4 cyber-title">CyberTrace</h1>
+          <p class="lead fs-3 mb-4 opacity-90">India's Leading Cyber Fraud Investigation Platform</p>
+          <p class="fs-5 mb-4 opacity-80">
+            Report scams instantly. Track investigations in real-time.
+            Protect yourself from online fraud with our AI-powered detection system.
+          </p>
+          <div class="d-flex flex-wrap gap-3 mb-4">
+            <a href="/complaint" class="btn cyber-btn-primary btn-lg fs-5 px-5">
+              <i class="fas fa-exclamation-triangle me-2"></i>Report Now
+            </a>
+          </div>
+
+          <!-- TRUST STATS -->
+          <div class="row g-3 mb-5">
+            <div class="col-auto">
+              <div class="cyber-stat p-3 rounded-pill text-center">
+                <div class="fs-3 fw-bold text-primary">10K+</div>
+                <small class="opacity-75">Cases Solved</small>
+              </div>
+            </div>
+            <div class="col-auto">
+              <div class="cyber-stat p-3 rounded-pill text-center">
+                <div class="fs-3 fw-bold text-success">98%</div>
+                <small class="opacity-75">Success Rate</small>
+              </div>
+            </div>
+            <div class="col-auto">
+              <div class="cyber-stat p-3 rounded-pill text-center">
+                <div class="fs-3 fw-bold text-warning">24/7</div>
+                <small class="opacity-75">Support</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right notification card -->
+        <div class="col-lg-5 text-center">
+          <div class="cyber-card p-4 position-relative" style="max-width: 420px; margin: auto; min-height: 340px;">
+            <!-- Decorative dots -->
+            <!-- <div class="position-absolute top-0 end-0 bg-danger rounded-circle p-2 m-3"
+                 style="width: 40px; height: 40px;">
+              <i class="fas fa-circle fs-6 text-danger opacity-75"></i>
+            </div>
+            <div class="position-absolute bottom-0 start-0 bg-success rounded-circle p-2 m-3"
+                 style="width: 30px; height: 30px;">
+              <i class="fas fa-shield-check fs-6 text-success"></i>
+            </div> -->
+
+            <!-- Header -->
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="d-flex align-items-center">
+                <div class="bg-danger rounded-circle d-flex align-items-center justify-content-center me-2"
+                     style="width:32px;height:32px;">
+                  <i class="fas fa-bell text-white"></i>
+                </div>
+                <div class="text-start">
+                  <div class="fw-bold small text-uppercase" style="letter-spacing:0.08em;">
+                    Live Alerts
+                  </div>
+                  <small class=" text-white">CyberTrace Notifications</small>
+                </div>
+              </div>
+              <!-- <span class="badge bg-success">Online</span> -->
+            </div>
+
+            <!-- Marquee -->
+            <!-- Marquee (vertical) -->
+<div class="ct-hero-marquee-wrapper">
+  <div class="ct-hero-marquee">
+    <ul class="ct-hero-marquee-content">
+      <li th:each="n : ${recentNotifications}">
+        <span class="ct-hero-tag">Alert</span>
+        <span class="ct-hero-text" th:text="${n.message}">
+          Sample notification message
+        </span>
+      </li>
+      <!-- duplicate for infinite loop -->
+      
+    </ul>
+  </div>
+</div>
+
+
+            <!-- <div class="mt-3 small text-center text-muted">
+              Auto‑scrolling latest cyber fraud alerts
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE FEATURES -->
+  <section class="py-5">
+    <div class="container-fluid px-4">
+      <h2 class="text-center mb-5 fw-bold display-5 cyber-title">Core Features</h2>
+      <div class="row g-4 text-center">
+        <div class="col-lg-3 col-md-6">
+          <div class="cyber-card p-5 h-100">
+            <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
+            <h5 class="fw-bold mb-3">Instant Reporting</h5>
+            <p class="opacity-80 mb-0">Submit evidence & details securely</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="cyber-card p-5 h-100">
+            <i class="fas fa-search fa-3x text-success mb-3"></i>
+            <h5 class="fw-bold mb-3">Live Tracking</h5>
+            <p class="opacity-80 mb-0">Real-time investigation updates</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="cyber-card p-5 h-100">
+            <i class="fas fa-shield-alt fa-3x text-info mb-3"></i>
+            <h5 class="fw-bold mb-3">100% Confidential</h5>
+            <p class="opacity-80 mb-0">Your privacy guaranteed</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="cyber-card p-5 h-100">
+            <i class="fas fa-bolt fa-3x text-warning mb-3"></i>
+            <h5 class="fw-bold mb-3">Lightning Fast</h5>
+            <p class="opacity-80 mb-0">AI-powered scam detection</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMON SCAMS -->
+  <section class="py-5">
+    <div class="container-fluid px-4">
+      <h2 class="text-center mb-5 fw-bold display-5 cyber-title">Common Scams We Stop</h2>
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+          <div class="cyber-card p-4 h-100 text-center">
+            <i class="fas fa-mobile-alt fa-3x text-danger mb-3"></i>
+            <h5 class="fw-bold">UPI Fraud</h5>
+            <p class="small opacity-80">Fake payment requests</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="cyber-card p-4 h-100 text-center">
+            <i class="fas fa-gift fa-3x text-warning mb-3"></i>
+            <h5 class="fw-bold">Online Shopping</h5>
+            <p class="small opacity-80">Fake delivery scams</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="cyber-card p-4 h-100 text-center">
+            <i class="fas fa-user-secret fa-3x text-info mb-3"></i>
+            <h5 class="fw-bold">Investment Fraud</h5>
+            <p class="small opacity-80">Crypto & trading scams</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="cyber-card p-4 h-100 text-center">
+            <i class="fas fa-headset fa-3x text-success mb-3"></i>
+            <h5 class="fw-bold">Tech Support</h5>
+            <p class="small opacity-80">Fake virus warnings</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="py-5" style="background: rgba(255,255,255,0.03);">
+    <div class="container-fluid px-4">
+      <h2 class="text-center mb-5 fw-bold display-4 cyber-title">3 Simple Steps</h2>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="cyber-card p-5 text-center h-100">
+            <div class="display-1 mb-4 cyber-title rounded-circle mx-auto"
+                 style="width: 80px; height: 80px; background: rgba(102,126,234,0.2); line-height: 80px;">1</div>
+            <h4 class="fw-bold mb-3">Report Instantly</h4>
+            <p class="opacity-80 mb-0">Upload scam details & evidence securely</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="cyber-card p-5 text-center h-100">
+            <div class="display-1 mb-4 cyber-title rounded-circle mx-auto"
+                 style="width: 80px; height: 80px; background: rgba(102,126,234,0.2); line-height: 80px;">2</div>
+            <h4 class="fw-bold mb-3">Track Live</h4>
+            <p class="opacity-80 mb-0">Monitor investigation progress 24/7</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="cyber-card p-5 text-center h-100">
+            <div class="display-1 mb-4 cyber-title rounded-circle mx-auto"
+                 style="width: 80px; height: 80px; background: rgba(102,126,234,0.2); line-height: 80px;">3</div>
+            <h4 class="fw-bold mb-3">Get Justice</h4>
+            <p class="opacity-80 mb-0">Receive updates & resolution report</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="py-5">
+    <div class="container-fluid px-4">
+      <h2 class="text-center mb-5 fw-bold display-5 cyber-title">What Victims Say</h2>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="cyber-testimonial p-5 h-100">
+            <div class="d-flex mb-4">
+              <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                   class="rounded-circle me-3" style="width: 60px; height: 60px;">
+              <div>
+                <h6 class="fw-bold mb-1">Ramesh Kumar</h6>
+                <small class="opacity-75">Delhi</small>
+              </div>
+            </div>
+            <p class="opacity-90 mb-4">
+              "Recovered ₹2.5L in 7 days. CyberTrace team was amazing!"
+            </p>
+            <div class="d-flex">
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="cyber-testimonial p-5 h-100">
+            <div class="d-flex mb-4">
+              <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                   class="rounded-circle me-3" style="width: 60px; height: 60px;">
+              <div>
+                <h6 class="fw-bold mb-1">Priya Sharma</h6>
+                <small class="opacity-75">Mumbai</small>
+              </div>
+            </div>
+            <p class="opacity-90 mb-4">
+              "Got full refund from fake shopping site. Highly recommend!"
+            </p>
+            <div class="d-flex">
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="cyber-card p-5 h-100 text-center testimonial-card">
+            <i class="fas fa-chart-line fa-4x text-primary mb-4 opacity-75"></i>
+            <h5 class="fw-bold mb-3">Join 10,000+</h5>
+            <p class="fs-5 opacity-80 mb-0">Victims helped this year</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUSTED BY -->
+  <section class="py-5">
+    <div class="container-fluid px-4">
+      <h2 class="text-center mb-5 fw-bold cyber-title">Trusted By</h2>
+      <div class="row g-3 text-center">
+        <div class="col">
+          <div class="cyber-partner py-4 px-5">
+            <i class="fas fa-shield-alt fa-2x text-primary mb-2"></i>
+            <h6>Govt. Certified</h6>
+          </div>
+        </div>
+        <div class="col">
+          <div class="cyber-partner py-4 px-5">
+            <i class="fas fa-users fa-2x text-success mb-2"></i>
+            <h6>500+ Investigators</h6>
+          </div>
+        </div>
+        <div class="col">
+          <div class="cyber-partner py-4 px-5">
+            <i class="fas fa-database fa-2x text-info mb-2"></i>
+            <h6>AI Powered</h6>
+          </div>
+        </div>
+        <div class="col">
+          <div class="cyber-partner py-4 px-5">
+            <i class="fas fa-lock fa-2x text-danger mb-2"></i>
+            <h6>End-to-End Encrypted</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LATEST UPDATES -->
+  <section class="py-5" style="background: rgba(0,0,0,0.4);">
+    <div class="container-fluid px-4">
+      <h2 class="text-center mb-5 fw-bold display-5 cyber-title">Latest Updates</h2>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="cyber-news-card h-100 p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-success rounded-circle p-2 me-3">
+                <i class="fas fa-bolt text-white fs-6"></i>
+              </div>
+              <div>
+                <h6 class="fw-bold mb-1">New UPI Scam Pattern Detected</h6>
+                <small class="opacity-75">Dec 18, 2025</small>
+              </div>
+            </div>
+            <p class="opacity-80 mb-3">
+              QR code scams targeting merchants identified and blocked...
+            </p>
+            <a href="#" class="small fw-bold text-primary">Read more →</a>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="cyber-news-card h-100 p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-warning rounded-circle p-2 me-3">
+                <i class="fas fa-chart-line text-dark fs-6"></i>
+              </div>
+              <div>
+                <h6 class="fw-bold mb-1">98% Recovery Rate Achieved</h6>
+                <small class="opacity-75">Dec 15, 2025</small>
+              </div>
+            </div>
+            <p class="opacity-80 mb-3">
+              Milestone reached with advanced AI analytics...
+            </p>
+            <a href="#" class="small fw-bold text-primary">Read more →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="py-5 text-center" style="background: var(--cyber-primary);">
+    <div class="container-fluid py-5">
+      <h2 class="fw-bold mb-4 display-3 text-light">Victim of Online Scam?</h2>
+      <p class="lead mb-5 fs-2 opacity-90">Don't wait. Report now and get professional help.</p>
+      <a href="/complaint" class="btn btn-light btn-lg cyber-btn-primary px-6 py-4 fs-4">
+        <i class="fas fa-exclamation-triangle me-3"></i>REPORT SCAM NOW
+      </a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

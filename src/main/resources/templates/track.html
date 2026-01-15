@@ -1,0 +1,306 @@
+<html th:replace="~{base::layout(~{::main})}">
+<main class="my-5">
+    <style>
+        .track-hero {
+            background: linear-gradient(135deg, rgba(12,12,12,0.9), rgba(26,26,46,0.8)),
+                        linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            backdrop-filter: blur(25px);
+        }
+        .cyber-search-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+        .track-input {
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            color: #ffffff;
+            padding: 20px 30px;
+            font-size: 1.2rem;
+            height: 70px;
+            transition: all 0.3s ease;
+        }
+        .track-input:focus {
+            background: rgba(255,255,255,0.25);
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.4rem rgba(102,126,234,0.2);
+            transform: scale(1.02);
+        }
+        .track-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 25px;
+            padding: 20px 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            height: 70px;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 35px rgba(102,126,234,0.4);
+        }
+        .track-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(102,126,234,0.6);
+        }
+        .status-badge {
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        .status-pending { background: rgba(255,193,7,0.2); color: #ffc107; border: 1px solid #ffc107; }
+        .status-progress { background: rgba(40,167,69,0.2); color: #28a745; border: 1px solid #28a745; }
+        .status-solved { background: rgba(102,126,234,0.2); color: #667eea; border: 1px solid #667eea; }
+        .case-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        .case-card:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(102,126,234,0.3);
+        }
+        .progress-container {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            height: 12px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 15px;
+            transition: width 2s ease-in-out;
+        }
+        .progress-pending { background: linear-gradient(90deg, #ffc107, #ffed4a); }
+        .progress-progress { background: linear-gradient(90deg, #28a745, #20c997); }
+        .progress-solved { background: linear-gradient(90deg, #667eea, #764ba2); }
+        .cyber-title {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+        }
+        .empty-state-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 25px;
+        }
+    </style>
+
+    <!-- SEARCH SECTION -->
+    <section class="track-hero text-white py-5">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-6 text-center mb-5">
+                    <h1 class="display-3 fw-bold mb-4 cyber-title">Track Case</h1>
+                    <p class="lead fs-2 opacity-90 mb-0">Enter your Case ID to view real-time investigation status</p>
+                </div>
+                <div class="col-lg-8 col-xl-6">
+                    <div class="cyber-search-card p-5">
+
+                        <!-- FLASH MESSAGE -->
+                        <div th:if="${msg}"
+                             class="alert alert-danger text-center py-2 mb-3" role="alert">
+                            <span th:text="${msg}">Invalid complaint id</span>
+                        </div>
+
+                        <form th:action="@{/track}" method="post">
+                            <div class="input-group">
+                                <input type="text" name="cid" class="track-input form-control"
+                                       placeholder="Enter Case ID :" required>
+                                <button class="track-btn btn text-white" type="submit">
+                                    <i class="fas fa-search me-2"></i>Track Now
+                                </button>
+                            </div>
+                            <!-- <div class="position-absolute top-50 end-0 translate-middle-y me-4 text-white-50 small">
+                                <i class="fas fa-lock me-1"></i>Secure Lookup
+                            </div> -->
+                        </form>
+                    </div>
+                    <div class="text-center mt-4 opacity-75">
+                        <small>Need help? <a href="/contact" class="text-white">Contact Support</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESULTS SECTION -->
+    <div class="container-fluid py-5" th:if="${complaint != null}">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-8">
+                <div class="case-card p-5 mb-5">
+                    <div class="row align-items-center mb-5">
+                        <div class="col-md-8">
+                            <h2 class="display-5 fw-bold mb-2 cyber-title" th:text="${complaint.title}">Case Title</h2>
+                            <div class="d-flex flex-wrap gap-3 mb-3">
+                                <span class="status-badge"
+                                      th:classappend="${complaint.status?.name() == 'PENDING' ? 'status-pending' :
+                                                     (complaint.status?.name() == 'IN_PROGRESS' ? 'status-progress' : 'status-solved')}"
+                                      th:text="${complaint.status}">Status</span>
+
+                                <!-- DATE 1: badge -->
+                                <span class="badge bg-secondary fs-6 px-3 py-2"
+                                      th:text="${#temporals.format(complaint.regDateTime, 'dd MMM yyyy, HH:mm')}">
+                                    18 Dec 2025, 21:45
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <div th:if="${complaint.assignedTo != null}">
+                                <h6 class="fw-bold text-white mb-1" th:text="${complaint.assignedTo.name}">Investigator</h6>
+                                <small class="text-muted" th:text="${complaint.assignedTo.contactNo}">+91-XXXXXXXXX</small>
+                            </div>
+                            <div th:unless="${complaint.assignedTo != null}" class="text-muted">
+                                <small>Not Assigned</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROGRESS TRACKER -->
+                    <div class="mb-5">
+                        <h4 class="fw-bold mb-4 cyber-title">Investigation Progress</h4>
+                        <div class="progress-container mb-4">
+                            <div class="progress-bar"
+                                 th:classappend="${complaint.status?.name() == 'PENDING' ? 'progress-pending' :
+                                                (complaint.status?.name() == 'IN_PROGRESS' ? 'progress-progress' : 'progress-solved')}"
+                                 style="width: 85%"></div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col">
+                                <small class="text-muted">Filed</small>
+                                <!-- DATE 2: progress filed -->
+                                <div class="fw-bold text-white fs-6"
+                                     th:text="${#temporals.format(complaint.regDateTime, 'dd MMM yyyy, HH:mm')}">
+                                    18 Dec 2025, 21:45
+                                </div>
+                            </div>
+                            <div class="col">
+                                <small class="text-muted">In Progress</small>
+                                <div class="fw-bold text-primary fs-6">Active</div>
+                            </div>
+                            <div class="col">
+                                <small class="text-muted">Resolved</small>
+                                <!-- DATE 3: progress resolved / pending -->
+                                <div class="fw-bold text-success fs-6"
+                                     th:text="${complaint.solvedAt != null ?
+                                              #temporals.format(complaint.solvedAt, 'dd MMM yyyy, HH:mm') :
+                                              'Pending'}">
+                                    Pending
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CASE DETAILS -->
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="cyber-card p-4 h-100">
+                                <h6 class="fw-bold mb-3 cyber-title">Case Details</h6>
+                                <table class="table table-borderless table-sm">
+                                    <tr>
+                                        <td class="text-muted small">Complaint ID</td>
+                                        <td class="fw-bold" th:text="${complaint.complaintId}">CT-2025-0001</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted small">Title</td>
+                                        <td class="fw-semibold" th:text="${complaint.title}">UPI Fraud</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted small">Filed On</td>
+                                        <!-- DATE 4: table filed -->
+                                        <td th:text="${#temporals.format(complaint.regDateTime, 'dd MMM yyyy, HH:mm')}">
+                                            18 Dec 2025, 21:45
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${complaint.solvedAt != null}">
+                                        <td class="text-muted small">Resolved On</td>
+                                        <!-- DATE 5: table resolved -->
+                                        <td class="text-success fw-bold"
+                                            th:text="${#temporals.format(complaint.solvedAt, 'dd MMM yyyy, HH:mm')}">
+                                            20 Dec 2025, 10:15
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="cyber-card p-4 h-100">
+                                <h6 class="fw-bold mb-3 cyber-title">Investigator</h6>
+                                <div th:if="${complaint.assignedTo != null}">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="bg-primary bg-opacity-20 p-3 rounded-circle me-3">
+                                            <i class="fas fa-user-shield text-primary fs-5"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-0" th:text="${complaint.assignedTo.name}">Inspector Rajesh</h6>
+                                            <small class="text-muted" th:text="${complaint.assignedTo.contactNo}">+91-XXXXXXXXX</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div th:unless="${complaint.assignedTo != null}" class="text-muted text-center py-4">
+                                    <i class="fas fa-clock fa-2x mb-3 opacity-50"></i>
+                                    <p class="mb-0">Case under review<br><small>Investigator will be assigned soon</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5 pt-4">
+                        <a href="/track" class="btn btn-outline-light btn-lg px-5 me-3">
+                            <i class="fas fa-search me-2"></i>New Search
+                        </a>
+                        <a href="/register-complaint" class="btn track-btn btn-primary btn-lg px-5">
+                            <i class="fas fa-plus me-2"></i>File New Complaint
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="container-fluid py-5 text-center" th:if="${complaint == null}">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="empty-state-card p-5">
+                    <i class="fas fa-search fa-4x text-muted mb-4"></i>
+                    <h3 class="fw-bold text-muted mb-3">Enter Case ID Above</h3>
+                    <p class="lead text-muted mb-4">Please enter a valid Case ID (CT-YYYY-XXXX) in the search box above</p>
+                    <div class="row g-3 justify-content-center mb-4">
+                        <div class="col-auto">
+                            <span class="badge bg-warning text-dark fs-6 px-4 py-2">Format</span>
+                        </div>
+                        <div class="col-auto">
+                            <span class="badge bg-info text-white fs-6 px-4 py-2">CT-2025-0001</span>
+                        </div>
+                    </div>
+                    <a href="/track" class="btn track-btn btn-primary btn-lg px-6">
+                        <i class="fas fa-arrow-left me-2"></i>Track Another Case
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+    </script>
+</main>
+</html>

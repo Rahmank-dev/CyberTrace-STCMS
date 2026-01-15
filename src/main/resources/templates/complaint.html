@@ -1,0 +1,316 @@
+<html th:replace="~{base::layout(~{::main})}">
+<body>
+<main>
+    <div class="container-fluid mt-4">
+        <style>
+            /* Enhanced CyberTrace Complaint Form */
+            .complaint-hero {
+                background: linear-gradient(135deg, rgba(220,53,69,0.9), rgba(102,126,234,0.8));
+                backdrop-filter: blur(20px);
+            }
+            .cyber-form-card {
+                background: rgba(15,15,25,0.95);
+                backdrop-filter: blur(30px);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 30px;
+                box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            }
+            .form-section {
+                background: rgba(255,255,255,0.04);
+                backdrop-filter: blur(20px);
+                border-radius: 25px;
+                border-left: 5px solid linear-gradient(135deg, #667eea, #764ba2);
+                background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(102,126,234,0.03));
+                padding: 35px;
+                margin-bottom: 30px;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                border: 1px solid rgba(255,255,255,0.08);
+            }
+            .form-section:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 30px 60px rgba(102,126,234,0.25);
+                border-color: rgba(102,126,234,0.3);
+            }
+            .form-control, .form-select {
+                background: rgba(255,255,255,0.12) !important;
+                border: 2px solid rgba(255,255,255,0.15) !important;
+                border-radius: 20px !important;
+                color: #ffffff !important;
+                padding: 18px 25px !important;
+                font-size: 1.05rem;
+                transition: all 0.3s ease;
+                height: 65px;
+                box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+            }
+            .form-control:focus, .form-select:focus {
+                background: rgba(255,255,255,0.2) !important;
+                border-color: #667eea !important;
+                box-shadow: 0 0 0 0.4rem rgba(102,126,234,0.2), inset 0 2px 10px rgba(0,0,0,0.2) !important;
+                color: #ffffff !important;
+                transform: translateY(-2px);
+            }
+            .form-control::placeholder {
+                color: rgba(226,232,240,0.7) !important;
+            }
+            .cyber-submit-btn {
+                background: linear-gradient(135deg, #dc3545, #667eea);
+                border: none;
+                border-radius: 30px;
+                padding: 22px 60px;
+                font-weight: 800;
+                font-size: 1.2rem;
+                box-shadow: 0 20px 40px rgba(220,53,69,0.4);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            .cyber-submit-btn:hover {
+                transform: translateY(-5px) scale(1.05);
+                box-shadow: 0 30px 60px rgba(220,53,69,0.6);
+            }
+            /* UNIQUE SECURITY BADGES */
+            .security-badge {
+                background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(255,255,255,0.2);
+                border-radius: 50px;
+                padding: 12px 24px;
+                font-weight: 600;
+                font-size: 0.9rem;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+            .security-badge::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+                transition: left 0.6s;
+            }
+            .security-badge:hover::before {
+                left: 100%;
+            }
+            .security-badge:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 15px 30px rgba(255,255,255,0.2);
+            }
+            .file-upload-area {
+                border: 3px dashed rgba(255,255,255,0.3);
+                border-radius: 25px;
+                padding: 50px;
+                text-align: center;
+                transition: all 0.4s ease;
+                background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(102,126,234,0.05));
+            }
+            .file-upload-area:hover, .file-upload-area.dragover {
+                border-color: #667eea;
+                background: linear-gradient(135deg, rgba(102,126,234,0.15), rgba(118,75,162,0.1));
+                transform: scale(1.02);
+                box-shadow: 0 20px 40px rgba(102,126,234,0.2);
+            }
+            .section-icon {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                width: 70px;
+                height: 70px;
+                border-radius: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 25px;
+                box-shadow: 0 15px 30px rgba(102,126,234,0.3);
+            }
+        </style>
+
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-11 mb-5">
+                <!-- MAIN FORM CARD -->
+                <div class="cyber-form-card">
+                    <!-- ENHANCED HEADER WITH UNIQUE BADGES -->
+                    <div class="p-5 text-center position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(220,53,69,0.95), rgba(102,126,234,0.85)); border-radius: 30px 30px 0 0;">
+                        <!-- Animated background pattern -->
+                        <div class="position-absolute top-0 start-0 w-100 h-100 opacity-10" style="background: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%222%22 fill=%22rgba(255,255,255,0.5)%22/><circle cx=%2220%22 cy=%2230%22 r=%221%22 fill=%22rgba(255,255,255,0.3)%22/><circle cx=%2280%22 cy=%2270%22 r=%221.5%22 fill=%22rgba(255,255,255,0.4)%22/></svg>');"></div>
+                        
+                        <div class="position-relative z-index-1">
+                            <div class="mb-5">
+                                <i class="fas fa-exclamation-triangle fa-5x opacity-90 mb-4"></i>
+                                <h1 class="display-4 fw-bold mb-3">Report a Scam</h1>
+                                <p class="lead fs-3 opacity-90 mb-0">Complete online fraud reporting in 3 minutes</p>
+                            </div>
+                            
+                            <!-- UNIQUE FLOATING SECURITY BADGES -->
+                            <div class="row g-3 justify-content-center">
+                                <div class="col-auto">
+                                    <div class="security-badge text-primary">
+                                        <i class="fas fa-shield-alt me-2"></i>Bank-Level Security
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="security-badge text-success">
+                                        <i class="fas fa-lock me-2"></i>End-to-End Encrypted
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="security-badge text-info">
+                                        <i class="fas fa-bolt me-2"></i>Lightning Processing
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FORM BODY -->
+                    <div class="p-5">
+                        <form action="/complaint" method="post" th:object="${dto}" enctype="multipart/form-data">
+
+                            <!-- PERSONAL DETAILS -->
+                            <div class="form-section">
+                                <div class="section-icon text-white mb-4">
+                                    <i class="fas fa-user fs-3"></i>
+                                </div>
+                                <h4 class="fw-bold mb-4 fs-2 cyber-title">Personal Information</h4>
+                                <div class="row g-4">
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="form-label fw-bold fs-5 mb-3 text-white">Full Name *</label>
+                                        <input type="text" th:field="*{name}" class="form-control form-control-lg" placeholder="Enter your full name" required>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="form-label fw-bold fs-5 mb-3 text-white">Contact Number 📞</label>
+                                        <input type="text" th:field="*{contactNo}" class="form-control form-control-lg" placeholder="10-digit mobile number">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="form-label fw-bold fs-5 mb-3 text-white">WhatsApp Number 💬</label>
+                                        <input type="text" th:field="*{whatsappNo}" class="form-control form-control-lg" placeholder="WhatsApp (optional)">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="form-label fw-bold fs-5 mb-3 text-white">Email Address ✉️</label>
+                                        <input type="email" th:field="*{email}" class="form-control form-control-lg" placeholder="your.email@example.com">
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold fs-5 mb-3 text-white">Complete Address 📍</label>
+                                        <textarea th:field="*{address}" class="form-control form-control-lg" rows="4" placeholder="Enter your complete address for verification purposes"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SCAM DETAILS -->
+                            <div class="form-section">
+                                <div class="section-icon text-white mb-4">
+                                    <i class="fas fa-bug fs-3"></i>
+                                </div>
+                                <h4 class="fw-bold mb-4 fs-2 cyber-title">Scam Details</h4>
+                                <div class="row g-4">
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="form-label fw-bold fs-5 mb-3 text-white">Type of Scam *</label>
+                                        <select th:field="*{typeOfScam}" class="form-select form-select-lg">
+                                            <option value="">--Select Scam Type--</option>
+                                            <option value="Cyber Fraud">Cyber Fraud</option>
+                                            <option value="Identity Theft">Identity Theft</option>
+                                            <option value="Banking / UPI Fraud">Banking / UPI Fraud</option>
+                                            <option value="Social Media Scam">Social Media Scam</option>
+                                            <option value="Online Shopping Scam">Online Shopping Scam</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="form-label fw-bold fs-5 mb-3 text-white">Platform Used 🌐</label>
+                                        <input type="text" th:field="*{platform}" class="form-control form-control-lg" placeholder="Instagram, WhatsApp, OLX, PhonePe, etc.">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="form-label fw-bold fs-5 mb-3 text-white">Amount Lost 💸</label>
+                                        <input type="number" th:field="*{lostAmount}" class="form-control form-control-lg" placeholder="Enter amount (₹)">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="form-label fw-bold fs-5 mb-3 text-white">Incident Title 📝</label>
+                                        <input type="text" th:field="*{title}" class="form-control form-control-lg" placeholder="Short title of the scam">
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <label class="form-label fw-bold fs-5 mb-3 text-white">Complete Description 📄</label>
+                                        <textarea th:field="*{description}" class="form-control form-control-lg" rows="5" placeholder="Describe the complete incident in detail. Include dates, times, conversations..."></textarea>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label class="form-label fw-bold fs-5 mb-3 text-white">Scammer Information 🕵️‍♂️</label>
+                                        <textarea th:field="*{scammer}" class="form-control form-control-lg" rows="5" placeholder="Phone numbers, UPI IDs, profile URLs, usernames, account details..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- EVIDENCE -->
+                            <div class="form-section">
+                                <div class="section-icon text-white mb-4">
+                                    <i class="fas fa-images fs-3"></i>
+                                </div>
+                                <h4 class="fw-bold mb-4 fs-2 cyber-title">Upload Evidence</h4>
+                                <div class="file-upload-area">
+                                    <i class="fas fa-cloud-upload-alt fa-5x text-primary mb-4 opacity-75"></i>
+                                    <h4 class="fw-bold mb-3 text-white">Drag & Drop Evidence Here</h4>
+                                    <p class="lead text-white-50 mb-4">Screenshots, chat logs, receipts, transaction proofs</p>
+                                    <input type="file" name="evidenceImages" class="d-none" multiple accept="image/*,.pdf" id="fileInput">
+                                    <label for="fileInput" class="btn cyber-btn-primary btn-lg px-6 py-3 fs-5 mb-4">
+                                        <i class="fas fa-upload me-3"></i>Choose Files
+                                    </label>
+                                    <div class="text-white-50">
+                                        <small>📱 JPG, PNG, PDF • Max 10 files • 5MB each</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SUBMIT -->
+                            <div class="text-center p-5">
+                                <button type="submit" class="cyber-submit-btn px-8">
+                                    <i class="fas fa-rocket me-4"></i>
+                                    Submit Secure Report
+                                </button>
+                                <div class="mt-5 pt-4 opacity-80 fs-6">
+                                    <i class="fas fa-lock me-2 text-success"></i>
+                                    Your data is protected with military-grade encryption
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var msg = "[[${msg}]]";
+        if (msg != "") {
+            alert(msg);
+        }
+
+        // Enhanced drag & drop
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.querySelector('.file-upload-area');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+        });
+        
+        uploadArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+        }
+    </script>
+</main>
+</body>
+</html>

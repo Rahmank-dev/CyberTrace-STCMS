@@ -1,0 +1,282 @@
+<html th:replace="base :: layout(~{::main})">
+<body>
+    <main>
+        <div class="container-fluid m-0 p-0">
+            <style>
+                /* CyberTrace About Theme */
+                .about-hero {
+                    background: linear-gradient(135deg, rgba(12,12,12,0.9), rgba(26,26,46,0.8)), 
+                                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    backdrop-filter: blur(20px);
+                }
+                .cyber-card {
+                    background: rgba(255,255,255,0.08);
+                    backdrop-filter: blur(20px);
+                    border: 1px solid rgba(255,255,255,0.1);
+                    border-radius: 20px;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                .cyber-card:hover {
+                    background: rgba(255,255,255,0.12);
+                    transform: translateY(-10px);
+                    box-shadow: 0 25px 50px rgba(102,126,234,0.3);
+                }
+                .cyber-title {
+                    background: linear-gradient(135deg, #667eea, #764ba2);
+                    -webkit-background-clip: text !important;
+                    background-clip: text !important;
+                    -webkit-text-fill-color: transparent !important;
+                }
+                .timeline-item {
+                    position: relative;
+                    padding-left: 40px;
+                }
+                .timeline-item::before {
+                    content: '';
+                    position: absolute;
+                    left: 15px;
+                    top: 0;
+                    bottom: -20px;
+                    width: 2px;
+                    background: linear-gradient(to bottom, #667eea, #764ba2);
+                }
+                .team-card {
+                    background: rgba(255,255,255,0.1);
+                    backdrop-filter: blur(15px);
+                }
+                .stats-card {
+                    background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2));
+                }
+            </style>
+
+            <!-- HERO SECTION -->
+            <section class="about-hero text-white text-center py-5">
+                <div class="container py-5">
+                    <h1 class="display-3 fw-bold mb-4 cyber-title">About CyberTrace</h1>
+                    <p class="lead fs-2 opacity-90 mb-0">
+                        Empowering citizens with fast, secure & transparent cyber-fraud reporting
+                    </p>
+                    <p class="fs-5 mt-3 opacity-75">
+                        India's premier platform connecting victims with cyber investigators
+                    </p>
+                </div>
+            </section>
+
+            <!-- WHO WE ARE -->
+            <section class="py-5">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <h2 class="fw-bold mb-4 display-5 cyber-title">Who We Are</h2>
+                            <p class="fs-4 opacity-90 mb-4">
+                                CyberTrace is India's leading cyber-fraud reporting and case-tracking platform designed 
+                                to bridge the gap between victims and investigators. Our mission is to make cybercrime 
+                                reporting fast, secure, and transparent.
+                            </p>
+                            <p class="fs-5 opacity-80">
+                                With cybercrime rising 300% in India, we provide a trusted digital channel where citizens 
+                                can report fraud instantly and track investigation progress in real-time. 
+                                <strong>10,000+ cases solved, 98% success rate.</strong>
+                            </p>
+                        </div>
+                        <div class="col-lg-4 text-center">
+                            <div class="cyber-card p-5">
+                                <img src="https://cdn-icons-png.flaticon.com/512/10419/10419429.png" 
+                                     alt="CyberTrace Platform" class="img-fluid" style="max-height: 250px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISION & MISSION -->
+            <section class="py-5" style="background: rgba(255,255,255,0.03);">
+                <div class="container">
+                    <h2 class="text-center mb-5 fw-bold display-5 cyber-title">Our Purpose</h2>
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="cyber-card p-5 h-100">
+                                <i class="fas fa-eye fa-3x text-primary mb-4"></i>
+                                <h3 class="fw-bold mb-3 cyber-title">Our Vision</h3>
+                                <p class="fs-5 opacity-90">
+                                    To become India's most reliable cybercrime reporting ecosystem, 
+                                    enabling lightning-fast response times, reducing online fraud by 50%, 
+                                    and building unbreakable digital trust nationwide.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="cyber-card p-5 h-100">
+                                <i class="fas fa-bullseye fa-3x text-success mb-4"></i>
+                                <h3 class="fw-bold mb-3 cyber-title">Our Mission</h3>
+                                <p class="fs-5 opacity-90">
+                                    Create a secure digital bridge where citizens report in minutes, 
+                                    investigators work efficiently, and victims receive real-time updates 
+                                    with guaranteed confidentiality and 24/7 support.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STATS SECTION - NEW -->
+            <section class="py-5">
+                <div class="container">
+                    <div class="row text-center g-4">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="stats-card p-4 rounded-4 h-100">
+                                <div class="display-1 fw-bold cyber-title mb-2">10K+</div>
+                                <h5 class="fw-bold">Cases Resolved</h5>
+                                <p class="opacity-80 mb-0">Since Launch</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="stats-card p-4 rounded-4 h-100">
+                                <div class="display-1 fw-bold cyber-title mb-2">98%</div>
+                                <h5 class="fw-bold">Success Rate</h5>
+                                <p class="opacity-80 mb-0">Recovery Achieved</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="stats-card p-4 rounded-4 h-100">
+                                <div class="display-1 fw-bold cyber-title mb-2">₹50Cr+</div>
+                                <h5 class="fw-bold">Recovered</h5>
+                                <p class="opacity-80 mb-0">For Victims</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="stats-card p-4 rounded-4 h-100">
+                                <div class="display-1 fw-bold cyber-title mb-2">24/7</div>
+                                <h5 class="fw-bold">Support</h5>
+                                <p class="opacity-80 mb-0">Round the Clock</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WHY CHOOSE US -->
+            <section class="py-5">
+                <div class="container">
+                    <h2 class="text-center mb-5 fw-bold display-5 cyber-title">Why CyberTrace?</h2>
+                    <div class="row g-4">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="cyber-card p-5 h-100 text-center">
+                                <i class="fas fa-shield-alt fa-3x text-primary mb-4"></i>
+                                <h5 class="fw-bold mb-3">Military-Grade Security</h5>
+                                <p class="opacity-80 mb-0">End-to-end encryption. Zero data breaches. Bank-level security.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="cyber-card p-5 h-100 text-center">
+                                <i class="fas fa-bolt fa-3x text-success mb-4"></i>
+                                <h5 class="fw-bold mb-3">Lightning Fast</h5>
+                                <p class="opacity-80 mb-0">Report in 2 mins. Case assigned in 24hrs. Updates every step.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="cyber-card p-5 h-100 text-center">
+                                <i class="fas fa-search fa-3x text-info mb-4"></i>
+                                <h5 class="fw-bold mb-3">Real-Time Tracking</h5>
+                                <p class="opacity-80 mb-0">Live dashboard. Instant notifications. Complete transparency.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TIMELINE - NEW -->
+            <section class="py-5" style="background: rgba(255,255,255,0.03);">
+                <div class="container">
+                    <h2 class="text-center mb-5 fw-bold display-5 cyber-title">Our Journey</h2>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="timeline-item mb-5">
+                                <div class="d-flex align-items-start">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-primary rounded-circle p-3 mb-3" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-rocket text-white fs-5"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-4">
+                                        <h4 class="fw-bold mb-2">Platform Launch</h4>
+                                        <p class="opacity-80 mb-2">Jan 2025</p>
+                                        <p>CyberTrace launched with AI-powered fraud detection for Indian users.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item mb-5">
+                                <div class="d-flex align-items-start">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-success rounded-circle p-3 mb-3" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-award text-white fs-5"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-4">
+                                        <h4 class="fw-bold mb-2">Govt Certification</h4>
+                                        <p class="opacity-80 mb-2">Apr 2025</p>
+                                        <p>Certified by Ministry of Electronics for cybercrime reporting.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="d-flex align-items-start">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-warning rounded-circle p-3 mb-3" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-chart-line text-dark fs-5"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-4">
+                                        <h4 class="fw-bold mb-2">10K Milestone</h4>
+                                        <p class="opacity-80 mb-2">Dec 2025</p>
+                                        <p>10,000+ cases resolved with 98% success rate.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TEAM -->
+            <section class="py-5">
+                <div class="container">
+                    <h2 class="text-center mb-5 fw-bold display-5 cyber-title">Meet Our Team</h2>
+                    <div class="row g-4 justify-content-center">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="team-card cyber-card p-5 text-center h-100">
+                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" 
+                                     class="rounded-circle mb-4 mx-auto shadow-lg" style="width: 120px; height: 120px;">
+                                <h4 class="fw-bold mb-2 cyber-title">Abdurrahman Khan</h4>
+                                <p class="fs-5 opacity-80 mb-4">Founder & Lead Developer</p>
+                                <p class="opacity-75 mb-0">8+ years in software development. CyberTrace creator & architect.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="team-card cyber-card p-5 text-center h-100">
+                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" 
+                                     class="rounded-circle mb-4 mx-auto shadow-lg" style="width: 120px; height: 120px;">
+                                <h4 class="fw-bold mb-2 cyber-title">Manish Yadav</h4>
+                                <p class="fs-5 opacity-80 mb-4">Technical Mentor</p>
+                                <p class="opacity-75 mb-0">Seasoned developer guiding CyberTrace technical roadmap.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <section class="py-5 text-center" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                <div class="container py-5">
+                    <h2 class="fw-bold mb-4 display-4 text-light">Ready to Fight Cybercrime?</h2>
+                    <p class="lead fs-3 mb-5 opacity-90">Join thousands who trust CyberTrace for justice.</p>
+                    <a href="/complaint" class="btn btn-light btn-lg px-6 py-4 fs-4 cyber-btn-primary">
+                        <i class="fas fa-exclamation-triangle me-3"></i>Report Your Case
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<html th:replace="~{Investigator/Investigatorbase::layout(~{::main})}">
+<body>
+<main>
+  <div class="row mt-3">
+    <!-- Welcome + quick info -->
+    <div class="col-12 mb-3">
+      <div class="card shadow-lg">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="mb-1 text-white">
+              Welcome back, <span th:text="${session.loggedInUser.name}">Investigator</span> 👋
+            </h5>
+            <p class="mb-0 text-white-50">
+              Here is a quick overview of your active investigations.
+            </p>
+          </div>
+          <div class="text-end d-none d-md-block">
+            <span class="badge bg-success">Investigator Console</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <p class="text-white-50 mb-1">Assigned (Open)</p>
+          <h3 class="mb-0 text-white" th:text="${assignedCount}">0</h3>
+          <small class="text-white-50">Complaints currently in processing</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <p class="text-white-50 mb-1">Resolved</p>
+          <h3 class="mb-0 text-success" th:text="${resolvedCount}">0</h3>
+          <small class="text-white-50">Successfully closed investigations</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <p class="text-white-50 mb-1">Rejected</p>
+          <h3 class="mb-0 text-danger" th:text="${rejectedCount}">0</h3>
+          <small class="text-white-50">Complaints marked as invalid</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <p class="text-white-50 mb-1">Today</p>
+          <h6 class="mb-1 text-white">
+            Assigned: <span th:text="${todayAssigned}">0</span>
+          </h6>
+          <h6 class="mb-0 text-white">
+            Resolved: <span th:text="${todayResolved}">0</span>
+          </h6>
+          <small class="text-white-50">Since midnight</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent complaints table -->
+  <div class="row mt-2">
+    <div class="col-12">
+      <div class="card shadow-lg" style="border-radius: 18px; overflow: hidden;">
+        <div class="card-header d-flex justify-content-between align-items-center"
+             style="background:linear-gradient(90deg,#2563eb,#22c55e);">
+          <h5 class="text-white mb-0">Recent Complaints</h5>
+          <a href="AssignedComplaints" class="btn btn-sm btn-outline-light">
+            View All
+          </a>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive mb-0">
+            <table class="table table-dark table-bordered table-hover mb-0 align-middle">
+              <thead>
+              <tr>
+                <th>Complaint Id</th>
+                <th>Title</th>
+                <th>Victim</th>
+                <th>Status</th>
+                <th>Registered</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:if="${#lists.isEmpty(recentComplaints)}">
+                <td colspan="5" class="text-center text-muted py-3">
+                  No complaints assigned yet.
+                </td>
+              </tr>
+              <tr th:each="com : ${recentComplaints}">
+                <td th:text="${com.complaintId}"></td>
+                <td th:text="${com.title}"></td>
+                <td th:text="${com.name}"></td>
+                <td>
+                  <span th:switch="${com.status}">
+                    <span th:case="${T(com.myproject.CyberTrace.Model.Complaint.ComplaintStatus).PROCESSING}"
+                          class="badge bg-warning rounded-pill">Processing</span>
+                    <span th:case="${T(com.myproject.CyberTrace.Model.Complaint.ComplaintStatus).RESOLVED}"
+                          class="badge bg-success rounded-pill">Resolved</span>
+                    <span th:case="${T(com.myproject.CyberTrace.Model.Complaint.ComplaintStatus).TERMINATED}"
+                          class="badge bg-danger rounded-pill">Rejected</span>
+                    <span th:case="*"
+                          class="badge bg-secondary rounded-pill" th:text="${com.status}"></span>
+                  </span>
+                </td>
+                <td th:text="${#temporals.format(com.regDateTime,'dd-MM-yyyy HH:mm')}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<html th:replace="~{base::layout(~{::main})}">
+<main>
+    <style>
+        /* CyberTrace Contact Theme */
+        .contact-hero {
+            background: linear-gradient(135deg, rgba(12,12,12,0.9), rgba(26,26,46,0.8)), 
+                        linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            backdrop-filter: blur(25px);
+        }
+        .contact-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        .contact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 40px 80px rgba(102,126,234,0.3);
+        }
+        .contact-method {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .contact-method:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(102,126,234,0.2);
+            color: inherit !important;
+        }
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            color: #ffffff;
+            padding: 18px 25px;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            height: 65px;
+        }
+        .form-control:focus, .form-select:focus {
+            background: rgba(255,255,255,0.25);
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.4rem rgba(102,126,234,0.2);
+            color: #ffffff;
+        }
+        .form-control::placeholder {
+            color: rgba(226,232,240,0.7);
+        }
+        .contact-submit {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 25px;
+            padding: 20px 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            height: 70px;
+            box-shadow: 0 15px 35px rgba(102,126,234,0.4);
+        }
+        .contact-submit:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(102,126,234,0.6);
+        }
+        .cyber-title {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+        }
+    </style>
+
+    <!-- HERO SECTION - ORIGINAL SAME -->
+    <section class="contact-hero text-white py-5">
+        <div class="container py-5 text-center">
+            <h1 class="display-3 fw-bold mb-4 cyber-title">Contact Us</h1>
+            <p class="lead fs-2 opacity-90 mb-5">Get help instantly - 24/7 support for cyber fraud victims</p>
+            <div class="row g-4 justify-content-center">
+                <div class="col-auto">
+                    <a href="tel:+919876543210" class="contact-method p-4">
+                        <i class="fas fa-phone fa-2x mb-3 text-success d-block"></i>
+                        <h6 class="fw-bold mb-1">Call Now</h6>
+                        <small>+91 73077 55314</small>
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <a href="https://wa.me/917307755314" target="_blank" class="contact-method p-4">
+                        <i class="fab fa-whatsapp fa-2x mb-3 text-success d-block"></i>
+                        <h6 class="fw-bold mb-1">WhatsApp</h6>
+                        <small>Instant Chat</small>
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <a href="mailto:support@cybertrace.in" class="contact-method p-4">
+                        <i class="fas fa-envelope fa-2x mb-3 text-primary d-block"></i>
+                        <h6 class="fw-bold mb-1">Email</h6>
+                        <small>support@cybertrace.in</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT FORM -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-7">
+                    <div class="contact-card p-5">
+                        <div class="text-center mb-5">
+                            <h2 class="display-5 fw-bold mb-3 cyber-title">Send Message</h2>
+                            <p class="lead opacity-90 mb-0">We'll respond within 2 hours</p>
+                        </div>
+                        
+                        <form th:object="${dto}" action="/contact" method="post">
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold fs-5 mb-3 text-white">Full Name *</label>
+                                    <input th:field="*{name}" type="text" class="form-control form-control-lg" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold fs-5 mb-3 text-white">Email Address *</label>
+                                    <input th:field="*{email}" type="email" class="form-control form-control-lg" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold fs-5 mb-3 text-white">Phone Number *</label>
+                                    <input th:field="*{contactNo}" type="text" class="form-control form-control-lg" 
+                                           pattern="\d{10}" title="10 digit phone number" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold fs-5 mb-3 text-white">Gender</label>
+                                    <select th:field="*{gender}" class="form-select form-select-lg" required>
+                                        <option value="">-- Select Gender --</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label fw-bold fs-5 mb-3 text-white">Address</label>
+                                <input th:field="*{address}" type="text" class="form-control form-control-lg" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label fw-bold fs-5 mb-3 text-white">Subject</label>
+                                <input th:field="*{subject}" type="text" class="form-control form-control-lg" required>
+                            </div>
+                            
+                            <div class="mb-5">
+                                <label class="form-label fw-bold fs-5 mb-3 text-white">Message</label>
+                                <textarea th:field="*{message}" class="form-control form-control-lg" rows="6" 
+                                          placeholder="Describe your query or issue in detail..." required></textarea>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="contact-submit btn btn-primary btn-lg">
+                                    <i class="fas fa-paper-plane me-3"></i>Send Secure Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OFFICE LOCATIONS -->
+    <section class="py-5" style="background: rgba(255,255,255,0.03);">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold display-4 cyber-title">Our Offices</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="contact-card p-5 h-100 text-center">
+                        <i class="fas fa-map-marker-alt fa-3x text-danger mb-4"></i>
+                        <h4 class="fw-bold mb-3">Headquarters</h4>
+                        <p class="opacity-90 mb-3">Lucknow, Uttar Pradesh</p>
+                        <p class="text-muted mb-4">Plot-12, Sector-5, Gomti Nagar<br>Lucknow - 226010</p>
+                        <a href="https://maps.google.com" target="_blank" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-directions me-2"></i>View Map
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="contact-card p-5 h-100 text-center">
+                        <i class="fas fa-building fa-3x text-primary mb-4"></i>
+                        <h4 class="fw-bold mb-3">Delhi Office</h4>
+                        <p class="opacity-90 mb-3">New Delhi</p>
+                        <p class="text-muted mb-4">3rd Floor, Nehru Place<br>New Delhi - 110019</p>
+                        <a href="https://maps.google.com" target="_blank" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-directions me-2"></i>View Map
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="contact-card p-5 h-100 text-center">
+                        <i class="fas fa-users fa-3x text-success mb-4"></i>
+                        <h4 class="fw-bold mb-3">Support Center</h4>
+                        <p class="opacity-90 mb-3">24/7 Helpline</p>
+                        <p class="text-muted mb-4">Nationwide support<br>Available all time</p>
+                        <a href="tel:+917307755314" class="btn btn-success btn-sm">
+                            <i class="fas fa-phone me-2"></i>Call Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+</html>

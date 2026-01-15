@@ -1,0 +1,63 @@
+<html th:replace="~{Investigator/Investigatorbase::layout(~{::main})}">
+    
+<body>
+<main>
+
+    
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-5">
+      <div class="card shadow-lg">
+        <div class="card-header d-flex align-items-center justify-content-between"
+             style="background:linear-gradient(90deg,#22c55e,#16a34a);">
+          <h4 class="text-white m-0">Update Profile Picture</h4>
+        </div>
+
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <img th:src="${session.loggedInUser.profilePic != null ?
+                          '/Profiles/' + session.loggedInUser.profilePic :
+                          '../assets/images/user/avatar-2.jpg'}"
+                 class="rounded-circle mb-3"
+                 style="width:100px;height:100px;object-fit:cover;">
+            <p class="text-white-50 small mb-0">
+              Recommended: Square image, at least 256x256
+            </p>
+          </div>
+
+          <form th:action="@{/Investigator/UpdateProfilePic}" method="post"
+                enctype="multipart/form-data">
+            <div class="mb-3">
+              <label class="profile-label">Choose Image</label>
+              <input type="file" name="image" accept="image/*"
+                     class="form-control profile-input" required>
+            </div>
+
+            <div class="d-flex justify-content-between mt-3">
+              <a th:href="@{/Investigator/ViewProfile}"
+                 class="btn btn-sm btn-outline-light">
+                Back to Profile
+              </a>
+              <button type="submit"
+                      class="btn btn-sm"
+                      style="background:linear-gradient(90deg,#22c55e,#4ade80);border:none;color:#020617;font-weight:600;">
+                Upload & Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SweetAlert flash -->
+  <script th:inline="javascript">
+  /*<![CDATA[*/
+      var msg = /*[[${msg}]]*/ null;
+      if (msg !== null && msg !== '') {
+          showToast(msg, 'success');
+      }
+  /*]]>*/
+  </script>
+</main>
+</body>
+</html>

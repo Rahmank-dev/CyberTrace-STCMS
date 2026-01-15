@@ -1,0 +1,210 @@
+<html th:replace="~{base::layout(~{::main})}">
+<body>
+<main>
+    <style>
+        .login-matrix{
+            position:fixed;top:0;left:0;width:100%;height:100%;
+            z-index:-1;
+            background:radial-gradient(ellipse at center,#0a0a1a 0%,#000 70%);
+        }
+        .matrix-char{
+            position:absolute;color:#00ff88;
+            font-family:'Courier New',monospace;
+            font-size:18px;font-weight:bold;
+            animation:matrix-fall linear infinite;opacity:.8;
+        }
+        @keyframes matrix-fall{
+            0%{transform:translateY(-100vh);opacity:1;}
+            100%{transform:translateY(100vh);opacity:0;}
+        }
+        .login-card{
+            background:rgba(15,15,35,.95);
+            backdrop-filter:blur(50px);
+            border:1px solid rgba(0,255,136,.3);
+            border-radius:25px;
+            box-shadow:0 0 100px rgba(0,255,136,.3),inset 0 0 50px rgba(0,0,0,.5);
+            position:relative;overflow:visible;
+        }
+        .login-card::before{
+            content:'';position:absolute;inset:0;
+            background:conic-gradient(from 0deg at 50% 50%,transparent 0deg,rgba(0,255,136,.1) 90deg,transparent 180deg);
+            animation:rotate 4s linear infinite;z-index:0;
+        }
+        @keyframes rotate{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+        .login-input{
+            background:rgba(0,255,136,.1);
+            border:2px solid rgba(0,255,136,.4);
+            border-radius:15px;color:#fff;
+            padding:20px 25px;font-size:1.05rem;
+            height:70px;transition:.4s;backdrop-filter:blur(20px);
+            position:relative;z-index:1;
+        }
+        .login-input:focus{
+            background:rgba(0,255,136,.2);
+            border-color:#00ff88;
+            box-shadow:0 0 30px rgba(0,255,136,.5);
+            transform:scale(1.02);
+        }
+        .login-input::placeholder{color:rgba(226,232,240,.6);}
+        .login-btn{
+            background:linear-gradient(135deg,#00ff88,#00cc6a);
+            border:none;border-radius:20px;
+            padding:20px 40px;font-weight:800;
+            font-size:1.2rem;height:75px;width:100%;
+            position:relative;z-index:1;
+            box-shadow:0 10px 30px rgba(0,255,136,.4);
+            text-transform:uppercase;letter-spacing:2px;
+            transition:.3s;
+        }
+        .login-btn:hover{
+            transform:translateY(-5px);
+            box-shadow:0 20px 50px rgba(0,255,136,.6);
+        }
+        .cyber-title{
+            background:linear-gradient(135deg,#00ff88,#667eea);
+            -webkit-background-clip:text;
+            background-clip:text;
+            -webkit-text-fill-color:transparent;
+        }
+        .glitch{animation:glitch 2s infinite;}
+        @keyframes glitch{
+            0%,100%{transform:translate(0);}
+            20%{transform:translate(-2px,2px);}
+            40%{transform:translate(-2px,-2px);}
+            60%{transform:translate(2px,2px);}
+            80%{transform:translate(2px,-2px);}
+        }
+        .scanline{
+            position:fixed;top:0;left:0;width:100%;height:2px;
+            background:linear-gradient(90deg,transparent,#00ff88,transparent);
+            animation:scan 3s linear infinite;z-index:999;
+        }
+        @keyframes scan{
+            0%{top:-2px;opacity:0;}
+            10%{opacity:1;}
+            90%{opacity:1;}
+            100%{top:100%;opacity:0;}
+        }
+        .hover-text-primary:hover{color:#00ff88!important;text-decoration:none;}
+    </style>
+
+    <div class="login-matrix" id="matrix-bg"></div>
+
+    <div class="position-relative min-vh-100 d-flex align-items-center justify-content-center p-3 p-md-4 p-lg-5">
+        <div class="scanline"></div>
+
+        <div class="container-fluid px-3 px-md-4">
+            <div class="row justify-content-center">
+                <!-- width badha diya: max-width 720px -->
+                <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xl-8">
+                    <div class="login-card p-4 p-md-5 position-relative mx-auto" style="max-width: 720px;">
+                        <div class="text-center mb-5">
+                            <div class="mx-auto mb-4 glitch"
+                                 style="width:110px;height:110px;background:linear-gradient(45deg,#00ff88,#667eea);
+                                        border-radius:22px;display:flex;align-items:center;justify-content:center;
+                                        box-shadow:0 0 50px rgba(0,255,136,.6);position:relative;z-index:1;">
+                                <i class="fas fa-shield-virus fa-2x text-black"></i>
+                            </div>
+                            <!-- font-size fixed chhota + no cut -->
+                            <h1 class="fw-bold mb-3 cyber-title"
+                                style="font-size:3rem;letter-spacing:0.12em;">
+                                CYBERTRACE
+                            </h1>
+                            <p class="lead opacity-90 mb-0 fs-5">SECURE ACCESS TERMINAL</p>
+                        </div>
+
+                        <form action="/login" method="post" th:object="${dto}">
+                            <div class="mb-4">
+                                <label class="form-label fw-bold fs-5 mb-3 text-white-50">ACCESS ID</label>
+                                <div class="position-relative">
+                                    <i class="fas fa-user position-absolute top-50 start-0 translate-middle-y ms-4 text-white-50 fs-5"></i>
+                                    <input th:field="*{email}" type="email"
+                                           class="login-input form-control form-control-lg ps-5"
+                                           placeholder="Enter email address" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold fs-5 mb-3 text-white-50">AUTHORIZATION CODE</label>
+                                <div class="position-relative">
+                                    <i class="fas fa-lock position-absolute top-50 start-0 translate-middle-y ms-4 text-white-50 fs-5"></i>
+                                    <input th:field="*{password}" type="password"
+                                           class="login-input form-control form-control-lg ps-5"
+                                           placeholder="Enter password" required id="password">
+                                    <i class="fas fa-eye position-absolute top-50 end-0 translate-middle-y me-4 cursor-pointer text-white-50 fs-5"
+                                       onclick="togglePassword()"></i>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember">
+                                    <label class="form-check-label text-white-50 small" for="remember">
+                                        KEEP SESSION ACTIVE
+                                    </label>
+                                </div>
+                                <a href="/forgot-password" class="text-white-50 small fw-bold hover-text-primary">RESET?</a>
+                            </div>
+
+                            <div class="mb-4">
+                                <button type="submit" class="login-btn btn w-100">
+                                    <i class="fas fa-terminal me-3"></i>AUTHENTICATE
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="text-center pt-3">
+                            <!-- <a href="/register" class="text-white-50 fs-6 d-block mb-2 hover-text-primary fw-semibold">
+                                CREATE NEW TERMINAL ACCESS
+                            </a> -->
+                            <a href="/forgot-password" class="text-white-50 fs-6 d-block hover-text-primary fw-semibold">
+                                RESET AUTHORIZATION
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var msg = "[[${msg}]]";
+        if (msg !== "") {
+            const toast = document.createElement('div');
+            toast.className = 'alert alert-danger position-fixed top-0 end-0 m-4 shadow-lg border-0';
+            toast.style.cssText =
+                'z-index:9999;backdrop-filter:blur(20px);border:1px solid rgba(220,53,69,0.3);background:rgba(220,53,69,0.9);';
+            toast.innerHTML =
+                `<i class="fas fa-exclamation-triangle me-2"></i>${msg}` +
+                `<button type="button" class="btn-close btn-close-white ms-3" onclick="this.parentElement.remove()"></button>`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast && toast.remove(), 6000);
+        }
+
+        function togglePassword(){
+            const password=document.getElementById('password');
+            const icon=event.target;
+            if(password.type==='password'){
+                password.type='text';
+                icon.classList.replace('fa-eye','fa-eye-slash');
+            }else{
+                password.type='password';
+                icon.classList.replace('fa-eye-slash','fa-eye');
+            }
+        }
+
+        function createMatrixChar(){
+            const char=document.createElement('div');
+            char.className='matrix-char';
+            char.innerHTML=String.fromCharCode(0x30A0+Math.random()*96);
+            char.style.left=Math.random()*100+'%';
+            char.style.animationDuration=(Math.random()*3+2)+'s';
+            char.style.fontSize=(Math.random()*10+16)+'px';
+            document.getElementById('matrix-bg').appendChild(char);
+            setTimeout(()=>char.remove(),5000);
+        }
+        setInterval(createMatrixChar,150);
+    </script>
+</main>
+</body>
+</html>

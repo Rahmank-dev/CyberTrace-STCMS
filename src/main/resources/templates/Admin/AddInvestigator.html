@@ -1,0 +1,108 @@
+<html th:replace="~{Admin/Adminbase::layout(~{::main})}">
+<body>
+<main>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg border-0 mt-4">
+                <div class="card-header d-flex justify-content-between align-items-center"
+                     style="background:linear-gradient(90deg,#2563eb,#22c55e);">
+                    <h4 class="text-white m-0">Add Investigator</h4>
+                    <span class="badge bg-dark bg-opacity-50 text-white-50">
+                        Admin : <span th:text="${session.loggedInAdmin.name}">Admin</span>
+                    </span>
+                </div>
+
+                <div class="card-body">
+                    <form th:object="${dto}" action="Add-Investigator" method="post" enctype="multipart/form-data">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Name</label>
+                                <input th:field="*{name}" type="text" class="form-control"
+                                       placeholder="Enter full name" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Gender</label>
+                                <select th:field="*{gender}" class="form-select" required>
+                                    <option value="">-- Select Gender --</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Contact Number</label>
+                                <input th:field="*{contactNo}" type="tel" pattern="\d{10}"
+                                       class="form-control" placeholder="10 digit mobile number" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Email Address</label>
+                                <input th:field="*{email}" type="email" class="form-control"
+                                       placeholder="Official email address" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Password</label>
+                                <input th:field="*{password}" type="password" class="form-control"
+                                       placeholder="Set secure password" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Govt. ID Proof</label>
+                                <input th:field="*{govtIdProof}" type="file" class="form-control" required>
+                                <small class="text-muted">
+                                    Upload Aadhar / PAN / Driving Licence (clear scan).
+                                </small>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">
+                                    Investigator Image <small class="text-muted">(Passport size, max 3 MB)</small>
+                                </label>
+                                <input th:field="*{profilePic}" type="file"
+                                       class="form-control py-3" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Address</label>
+                                <textarea th:field="*{address}" rows="3" class="form-control"
+                                          placeholder="Enter complete address" required></textarea>
+                            </div>
+
+                            <div class="col-12 text-center mt-3">
+                                <button type="submit" class="btn btn-success px-4">
+                                    <i class="ti ti-user-plus me-1"></i> Add Investigator
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast message for msg -->
+    <script th:inline="javascript">
+        let msg = /*[[${msg}]]*/ "";
+        if (msg && msg !== "") {
+            const toast = document.createElement('div');
+            toast.className = 'alert alert-info position-fixed top-0 end-0 m-3 shadow-lg border-0';
+            toast.style.cssText =
+                'z-index:9999;min-width:260px;background:rgba(15,23,42,0.96);color:#e5e7eb;' +
+                'border:1px solid rgba(56,189,248,0.6);backdrop-filter:blur(14px);';
+            toast.innerHTML =
+                '<div class="d-flex align-items-center">' +
+                '<i class="ti ti-info-circle me-2 text-info"></i>' +
+                '<span class="flex-grow-1">' + msg + '</span>' +
+                '<button type="button" class="btn-close btn-close-white ms-2" ' +
+                'onclick="this.parentElement.parentElement.remove()"></button>' +
+                '</div>';
+            document.body.appendChild(toast);
+            setTimeout(() => { toast && toast.remove(); }, 5000);
+        }
+    </script>
+</main>
+</body>
+</html>

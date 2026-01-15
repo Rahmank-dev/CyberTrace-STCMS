@@ -1,0 +1,119 @@
+<html th:replace="~{Admin/Adminbase::layout(~{::main})}">
+<body>
+<main>
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg mt-4">
+        <div class="card-header d-flex justify-content-between align-items-center"
+             style="background:linear-gradient(90deg,#2563eb,#22c55e);">
+          <h5 class="text-white mb-0">Publish Notification</h5>
+          <span class="badge bg-dark bg-opacity-50 text-white-50">Broadcast</span>
+        </div>
+
+        <div class="card-body">
+          <form th:action="@{AddNotification}" method="post">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Notification Message</label>
+              <textarea class="form-control"
+                        name="message"
+                        rows="5"
+                        placeholder="Type the message that will appear on user dashboards..."
+                        required></textarea>
+              <small class="text-muted">
+                Keep it short and clear. This will be visible to all users.
+              </small>
+            </div>
+
+            <div class="text-end">
+              <button type="submit" class="btn btn-success px-4">
+                <i class="ti ti-send me-1"></i>Publish
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ================================Notificaton table ============================ -->
+   
+  <!-- Notifications list -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-10">
+      <div class="card shadow-lg" style="border-radius:18px; overflow:hidden;">
+        <div class="card-header d-flex justify-content-between align-items-center"
+             style="background:linear-gradient(90deg,#0f172a,#22c55e);">
+          <h5 class="text-white mb-0">Recent Notifications</h5>
+          <span class="badge bg-dark bg-opacity-50 text-white-50">
+            Total&nbsp;<span th:text="${#lists.size(notifications)}">0</span>
+          </span>
+        </div>
+
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-dark table-hover mb-0 align-middle">
+              <thead>
+              <tr>
+                <th style="width:70px;">#</th>
+                <th>Message</th>
+                <th style="width:190px;">Published At</th>
+                <th style="width:120px;" class="text-center">Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:if="${#lists.isEmpty(notifications)}">
+                <td colspan="4" class="text-center text-muted py-3">
+                  No notifications published yet.
+                </td>
+              </tr>
+
+              <tr th:each="n,stat : ${notifications}">
+                <td th:text="${stat.count}">1</td>
+                <td th:text="${n.message}">Sample message...</td>
+                <td th:text="${#temporals.format(n.publishedAt,'dd-MM-yyyy HH:mm')}">
+                  25-12-2025 22:10
+                </td>
+                <td class="text-center">
+                  <form th:action="@{/Admin/DeleteNotification}" method="post"
+                        th:onsubmit="|return confirm('Delete this notification?');|"
+                        class="d-inline">
+                    <input type="hidden" name="id" th:value="${n.id}">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                      <i class="ti ti-trash"></i> Delete
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Toast for msg -->
+  <script th:inline="javascript">
+    let msg = /*[[${msg}]]*/ "";
+    if (msg && msg !== "") {
+      const toast = document.createElement('div');
+      toast.className = 'alert alert-info position-fixed top-0 end-0 m-3 shadow-lg border-0';
+      toast.style.cssText =
+        'z-index:9999;min-width:260px;background:rgba(15,23,42,0.96);color:#e5e7eb;' +
+        'border:1px solid rgba(56,189,248,0.6);backdrop-filter:blur(14px);';
+      toast.innerHTML =
+        '<div class="d-flex align-items-center">' +
+        '<i class="ti ti-info-circle me-2 text-info"></i>' +
+        '<span class="flex-grow-1">' + msg + '</span>' +
+        '<button type="button" class="btn-close btn-close-white ms-2" ' +
+        'onclick="this.parentElement.parentElement.remove()"></button>' +
+        '</div>';
+      document.body.appendChild(toast);
+      setTimeout(()=>{toast && toast.remove();},5000);
+    }
+  </script>
+</main>
+</body>
+</html>

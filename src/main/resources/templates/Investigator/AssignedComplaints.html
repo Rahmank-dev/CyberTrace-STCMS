@@ -1,0 +1,210 @@
+<html th:replace="~{Investigator/Investigatorbase::layout(~{::main})}">
+    <body>
+        <main>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card shadow-lg mt-3">
+        <div class="card-header d-flex justify-content-between align-items-center"
+             style="background:linear-gradient(90deg,#2563eb,#22c55e);">
+          <h4 class="text-white m-0">Manage Assigned Complaints</h4>
+          <span class="badge bg-dark bg-opacity-50 text-white-50">
+            Total : <span th:text="${#lists.size(complaints)}">0</span>
+          </span>
+        </div>
+
+        <div class="card-body">
+          <div class="table-responsive ct-table-wrapper">
+            <table class="table table-dark table-hover table-bordered align-middle mb-0 ct-table-dark" style="min-width:1200px;">
+              <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Complaint Id</th>
+                <th>Victim Name</th>
+                <th>Contact No.</th>
+                <th>Scammer</th>
+                <th>Title</th>
+                <th>Type of Scam</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Evidence</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="com, srno : ${complaints}">
+                <td th:text="${srno.index+1}"></td>
+                <td th:text="${com.complaintId}"></td>
+                <td th:text="${com.name}"></td>
+                <td th:text="${com.contactNo}"></td>
+                <td th:text="${com.scammer}"></td>
+                <td th:text="${com.title}"></td>
+                <td th:text="${com.typeOfScam}"></td>
+
+                <!-- Description (truncate + modal) -->
+                <td>
+                  <span class="complaint-desc text-truncate d-inline-block"
+                        style="max-width:150px;"
+                        th:text="${#strings.abbreviate(com.description,40)}">
+                  </span>
+                  <a class="btn btn-success btn-sm ms-1"
+                     data-bs-toggle="modal"
+                     th:attr="data-bs-target=${'#descModal__'+com.id}"
+                     title="View Full Description">
+                    View..
+                  </a>
+                </td>
+
+                <td><span class="badge bg-warning rounded-pill" th:text="${com.status}"></span></td>
+
+                <td th:text="${#temporals.format(com.regDateTime,'dd-MM-yyyy HH:mm')}"></td>
+
+                <td>
+                  <a class="btn btn-success btn-sm"
+                     data-bs-toggle="modal"
+                     th:attr="data-bs-target=${'#evidenceModal__'+com.id}">
+                    View..
+                  </a>
+                </td>
+
+                <td class="d-flex justify-content-center align-items-center">
+                 
+
+                     <a data-bs-toggle="modal"
+                     th:attr="data-bs-target=${'#closeModal__'+com.id}"
+                     class="btn btn-success text-white mx-2 btn-sm">
+                    Close
+                  </a>
+
+
+
+                  <a data-bs-toggle="modal"
+                     th:attr="data-bs-target=${'#complaintModal__'+com.id}"
+                     class="btn btn-danger text-white mx-2 btn-sm">
+                    Reject
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Reject Complaint Modals -->
+  <div th:each="com : ${complaints}" class="modal fade"
+       th:id="${'complaintModal__'+com.id}" tabindex="-1"
+       aria-labelledby="rejectLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="rejectLabel" th:text="${com.title}">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="RejectComplaint" method="post">
+          <div class="modal-body">
+            <label class="form-label">Reason of Rejection</label>
+            <input type="hidden" th:value="${com.id}" name="cid">
+            <textarea name="message" rows="3" class="form-control"
+                      placeholder="Type your message here.."></textarea>
+          </div>
+          <div class="modal-footer py-2 pb-0">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Reject Complaint</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<!-- Close Complaint Modal -->
+  <div th:each="com : ${complaints}" class="modal fade"
+       th:id="${'closeModal__'+com.id}" tabindex="-1"
+       aria-labelledby="rejectLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="rejectLabel" th:text="${com.title}">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="CloseComplaint" method="post">
+          <div class="modal-body">
+            <label class="form-label">Closing Summary</label>
+            <input type="hidden" th:value="${com.id}" name="cid">
+            <textarea name="message" rows="3" class="form-control"
+                      placeholder="Type your message here.."></textarea>
+          </div>
+          <div class="modal-footer py-2 pb-0">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">Close Complaint</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Description Modals -->
+  <div th:each="com : ${complaints}" class="modal fade"
+       th:id="${'descModal__'+com.id}" tabindex="-1"
+       aria-labelledby="descLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="descLabel" th:text="${com.title}">Complaint Description</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label class="form-label fw-bold">Full Description:</label>
+          <div class="border rounded bg-light"
+               style="min-height:100px;max-height:400px;overflow-y:auto;font-size:14px;">
+            <div style="white-space:pre-wrap;text-align:left;">
+              <span th:text="${com.description}"></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer py-2">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Evidence Modals -->
+  <div th:each="com : ${complaints}" class="modal fade"
+       th:id="${'evidenceModal__'+com.id}" tabindex="-1"
+       aria-labelledby="evidenceLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="evidenceLabel">Complaint Evidences</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-4 mx-auto" th:each="images : ${com.evidence}">
+              <img class="w-100 rounded shadow-sm"
+                   th:src="@{'/uploads/'+${images}}" alt="image not found">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script th:inline="javascript">
+/*<![CDATA[*/
+    var msg = /*[[${msg}]]*/ null;
+    if (msg !== null && msg !== '') {
+        showToast(msg, 'success');
+    }
+/*]]>*/
+</script>
+
+
+</main>
+    </body>
+</html>

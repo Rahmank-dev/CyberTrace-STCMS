@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html th:replace="~{Admin/Adminbase::layout(~{::main})}">
+<body>
+<main>
+
+  <style>
+    /* Metric cards */
+    .ct-stat-card{
+      background:linear-gradient(145deg,#111827,#020617);
+      border-radius:18px;
+      border:1px solid rgba(55,65,81,0.9);
+      box-shadow:0 18px 45px rgba(15,23,42,0.9);
+      color:#f9fafb;
+    }
+    .ct-stat-card p{
+      color:#9ca3af;
+      font-size:0.8rem;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:4px;
+    }
+    .ct-stat-card h3{
+      font-size:1.8rem;
+      margin-bottom:2px;
+    }
+    .ct-stat-card small{
+      font-size:0.75rem;
+    }
+    .ct-stat-card-icon{
+      width:32px;
+      height:32px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1rem;
+    }
+    .ct-stat-card.total .ct-stat-card-icon{
+      background:rgba(59,130,246,0.15);
+      color:#60a5fa;
+    }
+    .ct-stat-card.pending .ct-stat-card-icon{
+      background:rgba(234,179,8,0.15);
+      color:#facc15;
+    }
+    .ct-stat-card.resolved .ct-stat-card-icon{
+      background:rgba(34,197,94,0.15);
+      color:#4ade80;
+    }
+    .ct-stat-card.investigators .ct-stat-card-icon{
+      background:rgba(56,189,248,0.15);
+      color:#38bdf8;
+    }
+  </style>
+
+  <div class="row g-3 mt-2">
+
+    <!-- Welcome -->
+    <div class="col-12 mb-2">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h3 class="mb-0 text-white">
+            Welcome back,
+            <span th:text="${session.loggedInAdmin.name}">Admin</span>
+          </h3>
+          <small class="text-muted">Overview of CyberTrace activity</small>
+        </div>
+        <span class="badge bg-dark bg-opacity-50 text-white-50">
+          Today :
+          <span th:text="${#temporals.format(#temporals.createNow(),'dd-MM-yyyy')}">19-12-2025</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Top cards -->
+    <div class="col-md-3 col-sm-6">
+      <div class="card shadow-sm border-0 ct-stat-card total">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <p>Total Complaints</p>
+            <h3 th:text="${totalComplaints}">0</h3>
+            <small class="text-success">All time</small>
+          </div>
+          <div class="ct-stat-card-icon">
+            <i class="ti ti-alert-triangle"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+      <div class="card shadow-sm border-0 ct-stat-card pending">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <p>Pending</p>
+            <h3 th:text="${pendingComplaints}">0</h3>
+            <small class="text-warning">Need attention</small>
+          </div>
+          <div class="ct-stat-card-icon">
+            <i class="ti ti-clock"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+      <div class="card shadow-sm border-0 ct-stat-card resolved">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <p>Resolved</p>
+            <h3 th:text="${resolvedComplaints}">0</h3>
+            <small class="text-info">Closed cases</small>
+          </div>
+          <div class="ct-stat-card-icon">
+            <i class="ti ti-check"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+      <div class="card shadow-sm border-0 ct-stat-card investigators">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <p>Investigators</p>
+            <h3 th:text="${totalInvestigators}">0</h3>
+            <small class="text-primary">Active staff</small>
+          </div>
+          <div class="ct-stat-card-icon">
+            <i class="ti ti-users"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent complaints -->
+   <div class="col-lg-8">
+  <div class="card shadow-lg mt-2">
+    <div class="card-header d-flex justify-content-between align-items-center"
+         style="background:linear-gradient(90deg,#2563eb,#22c55e);">
+      <h5 class="text-white mb-0">Monthly Complaints</h5>
+    </div>
+    <div class="card-body">
+      <canvas id="complaintsChart" height="120"></canvas>
+    </div>
+  </div>
+</div>
+
+    <!-- Notifications -->
+   <div class="col-lg-4">
+  <div class="card shadow-lg mt-2">
+    <div class="card-header d-flex justify-content-between align-items-center"
+         style="background:linear-gradient(90deg,#22c55e,#16a34a);">
+      <h5 class="text-white mb-0">Latest Enquiries</h5>
+      <a href="Enquiry" class="text-white-50 small text-decoration-none">View all</a>
+    </div>
+    <div class="card-body" style="max-height:260px;overflow-y:auto;">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item bg-transparent text-white-50 border-secondary"
+            th:each="e : ${topEnquiries}">
+          <div class="small fw-semibold" th:text="${e.name}">User name</div>
+          <div class="small" th:text="${e.subject}">Short subject</div>
+          <small class="text-white-50"
+                 th:text="${#temporals.format(e.EnquiryDate,'dd-MM-yyyy HH:mm')}">
+          </small>
+        </li>
+        <li class="list-group-item bg-transparent text-muted border-secondary"
+            th:if="${#lists.isEmpty(topEnquiries)}">
+          No enquiries yet.
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+
+
+
+
+  <script th:inline="javascript">
+  /*<![CDATA[*/
+  var monthLabels = /*[[${monthLabels}]]*/ [];
+  var monthCounts = /*[[${monthCounts}]]*/ [];
+  /*]]>*/
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('complaintsChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: monthLabels,          // ["Jan", "Feb", ... , "Dec"]
+      datasets: [{
+        label: 'Complaints',
+        data: monthCounts,          // [5, 0, 3, ...]
+        backgroundColor: 'rgba(37,99,235,0.7)',
+        borderColor: 'rgba(37,99,235,1)',
+        borderWidth: 1,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: {
+          grid: { display: false }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { stepSize: 1 }
+        }
+      }
+    }
+  });
+</script>
+
+</main>
+</body>
+</html>

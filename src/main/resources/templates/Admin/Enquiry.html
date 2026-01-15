@@ -1,0 +1,72 @@
+<html th:replace="~{Admin/Adminbase::layout(~{::main})}">
+<body>
+<main>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card shadow-lg mt-3">
+        <div class="card-header d-flex justify-content-between align-items-center"
+             style="background:linear-gradient(90deg,#2563eb,#22c55e);">
+          <h4 class="text-center text-white m-0">Manage Enquiries</h4>
+          <span class="badge bg-dark bg-opacity-50 text-white-50">
+            Total : <span th:text="${#lists.size(enquiries)}">0</span>
+          </span>
+        </div>
+
+        <div class="card-body">
+          <div class="table-responsive ct-table-wrapper">
+            <table class="table table-dark table-bordered table-hover align-middle mb-0 ct-table-dark"
+                   style="min-width:1100px;">
+              <thead>
+              <tr>
+                <th>Sr. No</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Contact No</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Address</th>
+                <th>Enquiry Date</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr th:each="enq, srno : ${enquiries}">
+                <td th:text="${srno.index+1}" class="text-center"></td>
+                <td th:text="${enq.name}"></td>
+                <td th:text="${enq.gender}"></td>
+                <td th:text="${enq.contactNo}"></td>
+                <td th:text="${enq.email}"></td>
+                <td th:text="${enq.subject}"></td>
+
+                <!-- Message truncate + tooltip full -->
+                <td>
+                  <span th:title="${enq.message}"
+                        th:text="${#strings.abbreviate(enq.message,40)}"></span>
+                </td>
+
+                <td>
+                  <span th:title="${enq.address}"
+                        th:text="${#strings.abbreviate(enq.address,35)}"></span>
+                </td>
+
+                <td th:text="${#temporals.format(enq.enquiryDate,'dd-MM-yyyy HH:mm')}"></td>
+
+                <td class="text-center">
+                  <a href="#" class="btn btn-outline-info btn-sm">
+                    <i class="ti ti-eye me-1"></i>View
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>
