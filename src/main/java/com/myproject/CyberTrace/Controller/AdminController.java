@@ -11,8 +11,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,20 +43,23 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/Admin")
 public class AdminController {
 
-    @Autowired
-    private HttpSession session;
+    private final HttpSession session;
 
-    @Autowired
-    private EnquiryRepository enquiryRepo;
+    private final EnquiryRepository enquiryRepo;
 
-    @Autowired
-    private UserRepository userRepo;
+    private final UserRepository userRepo;
 
-    @Autowired
-    private ComplaintRepository complaintRepo;
+    private final ComplaintRepository complaintRepo;
 
-    @Autowired
-    private NotificationRepository notificationRepo;
+    private final NotificationRepository notificationRepo;
+
+    AdminController(HttpSession session, EnquiryRepository enquiryRepo, UserRepository userRepo, ComplaintRepository complaintRepo, NotificationRepository notificationRepo) {
+        this.session = session;
+        this.enquiryRepo = enquiryRepo;
+        this.userRepo = userRepo;
+        this.complaintRepo = complaintRepo;
+        this.notificationRepo = notificationRepo;
+    }
 
   @GetMapping("/Dashboard")
 public String ShowDashboard(Model model) {

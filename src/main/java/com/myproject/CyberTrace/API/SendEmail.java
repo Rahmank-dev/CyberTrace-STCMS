@@ -78,21 +78,18 @@ public class SendEmail {
                 "</html>";
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-
         try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             helper.setFrom("abdurrahmank032@gmail.com");
             helper.setTo(complaint.getEmail());
             helper.setSubject(subject);
             helper.setText(message, true);
 
             mailSender.send(mimeMessage);
-            System.err.println("Mail sended to : " + complaint.getEmail());
-
+            System.err.println("Mail sent to : " + complaint.getEmail());
         } catch (MessagingException e) {
-
             e.printStackTrace();
-            System.err.println("Error : " + e.getMessage());
+            System.err.println("Mail error: " + e.getMessage());
         }
 
     }

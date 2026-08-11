@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,14 +31,18 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/Investigator")
 public class InvestigatorController {
 
-    @Autowired
-    private HttpSession session;
+    private final HttpSession session;
 
-    @Autowired
-    private ComplaintRepository complaintRepo;
+    private final ComplaintRepository complaintRepo;
 
-    @Autowired
-    private UserRepository userRepo;
+    private final UserRepository userRepo;
+
+
+  InvestigatorController(UserRepository userRepo, ComplaintRepository complaintRepo, HttpSession session) {
+    this.userRepo = userRepo;
+    this.complaintRepo = complaintRepo;
+    this.session = session;
+  }
 
 
     @GetMapping("/Dashboard")

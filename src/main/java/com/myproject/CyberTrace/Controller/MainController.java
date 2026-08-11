@@ -9,8 +9,6 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,20 +38,23 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class MainController {
 
-    @Autowired
-    private UserRepository userRepo;
+    private final UserRepository userRepo;
 
-    @Autowired
-    private EnquiryRepository enquiryRepo;
+    private final EnquiryRepository enquiryRepo;
 
-    @Autowired
-    private ComplaintRepository complaintRepo;
+    private final ComplaintRepository complaintRepo;
 
-    @Autowired
-    private NotificationRepository notificationRepo;
+    private final NotificationRepository notificationRepo;
 
-    @Autowired
-    private SendEmail sendEmail;
+    private final SendEmail sendEmail;
+
+    MainController(ComplaintRepository complaintRepo, NotificationRepository notificationRepo, SendEmail sendEmail, EnquiryRepository enquiryRepo, UserRepository userRepo) {
+        this.complaintRepo = complaintRepo;
+        this.notificationRepo = notificationRepo;
+        this.sendEmail = sendEmail;
+        this.enquiryRepo = enquiryRepo;
+        this.userRepo = userRepo;
+    }
 
     // index page
     // @GetMapping("/")

@@ -5,12 +5,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
-
 import com.myproject.CyberTrace.Model.Complaint;
 import com.myproject.CyberTrace.Model.Complaint.ComplaintStatus;
 import com.myproject.CyberTrace.Model.Users;
-@Repository
 public interface ComplaintRepository extends JpaRepository<Complaint,Long> {
 
     List<Complaint> findAllByStatus(ComplaintStatus pending);
