@@ -88,8 +88,6 @@
         .hover-text-primary:hover{color:#00ff88!important;text-decoration:none;}
     </style>
 
-    <div class="login-matrix" id="matrix-bg"></div>
-
     <div class="position-relative min-vh-100 d-flex align-items-center justify-content-center p-3 p-md-4 p-lg-5">
         <div class="scanline"></div>
 
@@ -132,7 +130,7 @@
                                            class="login-input form-control form-control-lg ps-5"
                                            placeholder="Enter password" required id="password">
                                     <i class="fas fa-eye position-absolute top-50 end-0 translate-middle-y me-4 cursor-pointer text-white-50 fs-5"
-                                       onclick="togglePassword()"></i>
+                                       onclick="togglePassword(event)"></i>
                                 </div>
                             </div>
 
@@ -181,7 +179,7 @@
             setTimeout(() => toast && toast.remove(), 6000);
         }
 
-        function togglePassword(){
+        function togglePassword(event){
             const password=document.getElementById('password');
             const icon=event.target;
             if(password.type==='password'){
@@ -192,18 +190,6 @@
                 icon.classList.replace('fa-eye-slash','fa-eye');
             }
         }
-
-        function createMatrixChar(){
-            const char=document.createElement('div');
-            char.className='matrix-char';
-            char.innerHTML=String.fromCharCode(0x30A0+Math.random()*96);
-            char.style.left=Math.random()*100+'%';
-            char.style.animationDuration=(Math.random()*3+2)+'s';
-            char.style.fontSize=(Math.random()*10+16)+'px';
-            document.getElementById('matrix-bg').appendChild(char);
-            setTimeout(()=>char.remove(),5000);
-        }
-        setInterval(createMatrixChar,150);
     </script>
 </main>
 </body>

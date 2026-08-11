@@ -1,6 +1,5 @@
 package com.myproject.CyberTrace.API;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -13,8 +12,11 @@ import jakarta.mail.internet.MimeMessage;
 @Service
 public class SendEmail {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
+
+    SendEmail(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
 
     public void sendComplaintSuccessMail(Complaint complaint) {
         String subject = "Complaint Submission Succesfully - Check Your Status ";
@@ -76,13 +78,13 @@ public class SendEmail {
                 "</html>";
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
-        // helper.setFrom(null);
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
         try {
+            helper.setFrom("abdurrahmank032@gmail.com");
             helper.setTo(complaint.getEmail());
             helper.setSubject(subject);
-            helper.setText(message,true);
+            helper.setText(message, true);
 
             mailSender.send(mimeMessage);
             System.err.println("Mail sended to : " + complaint.getEmail());
