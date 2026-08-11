@@ -31,3 +31,7 @@ build/
 ### VS Code ###
 .vscode/
 .DS_Store
+
+# Ignore uploaded files stored by the app
+Public/uploads/
+public/uploads/
